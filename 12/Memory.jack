@@ -1,0 +1,163 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * This library provides two services: direct access to the computer's main
+ * memory (RAM), and allocation and recycling of memory blocks. The Hack RAM
+ * consists of 32,768 words, each holding a 16-bit binary number.
+ */ 
+ class Memory {
+
+    static Array ram;
+
+    /** Initializes the class. */
+    function void init() {
+        let ram = 0;
+        let ram[2048] = 2048;
+        let ram[2049] = 14334;
+        
+        return;
+    }
+
+    /** Returns the RAM value at the given address. */
+    function int peek(int address) {
+        return ram[address];
+    }
+    
+    /** Sets the RAM value at the given address to the given value. */
+    function void poke(int address, int value) {
+        let ram[address] = value;
+        return;
+    }
+
+    /** Finds an available RAM block of the given size and returns
+     *  a reference to its base address. */
+    function int alloc(int size) {
+        var int block;
+
+        if (size < 1) {
+            do Sys.error(5);
+        }
+
+        let block = Memory.firstFit(size); // use first fit since deAlloc keep the RAM deFragmented
+        
+        if (block = (-1)) {
+            do Sys.error(6); // Heap overflow http://nand2tetris-questions-and-answers-forum.32033.n3.nabble.com/Jack-OS-Error-Codes-td4027619.html
+        }
+
+        return block;
+    }
+
+    /** Finds the first possible block for the size in the RAM.
+        Returns block base address, return -1 if found none.*/
+    function int firstFit(int size) {
+        var int current_pointer;
+
+        if (Memory.fit(2048, size)) {
+            return Memory.carveBlock(2048, size);
+        }
+
+        let current_pointer = ram[2048];
+        
+        while (~(current_pointer = 2048)) {
+            if (Memory.fit(current_pointer, size)) {
+                return Memory.carveBlock(current_pointer, size);
+            }
+            
+            let current_pointer = ram[current_pointer];
+        }
+
+        return (-1);
+    }
+    
+    /** Finds the smallest possible block for the size in the RAM.
+        Returns block base address, return -1 if found none.*/
+    function int bestFit(int size) {
+        var int current_pointer, best_fit, best_delta;
+
+        let best_fit = (-1);
+        let current_pointer = ram[2048];
+
+        if (Memory.fit(2048, size)) {
+            let best_fit = 2048;
+            let best_delta = Memory.delta(2048, size);
+        }
+        
+        while (~(current_pointer = 2048)) {
+            let current_pointer = ram[current_pointer];
+
+            if (Memory.fit(current_pointer, size) & (best_delta > Memory.delta(current_pointer, size))) {
+                let best_fit = current_pointer;
+                let best_delta = Memory.delta(current_pointer, size);
+            }
+        }
+        
+        if (best_fit > -1) {
+            do Memory.carveBlock(best_fit, size);
+        }
+
+        return best_fit;
+    }
+    
+    function int carveBlock(int pointer, int size) {
+        var int block;
+
+        let ram[pointer + 1] = ram[pointer + 1] - (size + 2);
+        let block = pointer + ram[pointer + 1] + 2;
+        let ram[block + 1] = size;
+
+        return block;
+    }
+
+    function boolean fit(int pointer, int size) {
+        return (~((size + 2) > ram[pointer + 1]));
+    }
+
+    function boolean delta(int pointer, int size) {
+        return (ram[pointer + 1] - size);
+    }
+
+    function void deFragmentaion(int object_pointer) {
+        var int prev_pointer, current_pointer;
+        var boolean placed;
+
+        let prev_pointer = 2048;
+        let current_pointer = ram[2048];
+        let placed = false;
+        
+        while (~(current_pointer = 2048)) {
+            if ((~placed) & (object_pointer < current_pointer)){
+                let ram[prev_pointer] = object_pointer;
+                let ram[object_pointer] = current_pointer;
+                let current_pointer = object_pointer;
+                let placed = true;
+            }
+
+            if (current_pointer = (prev_pointer + 2 + ram[prev_pointer + 1])){
+                let ram[prev_pointer + 1] = ram[current_pointer + 1] + 2;
+                let ram[prev_pointer] = ram[current_pointer];
+            }
+            else {
+                let prev_pointer = current_pointer;
+            }
+            let current_pointer = ram[current_pointer];
+        }
+
+        if ((~placed)){
+            let ram[prev_pointer] = object_pointer;
+            let ram[object_pointer] = 2048;
+        }
+
+        return;
+    }
+
+    /** De-allocates the given object (cast as an array) by making
+     *  it available for future allocations. */
+    function void deAlloc(Array o) {
+        do Memory.deFragmentaion(o - 2);
+
+        return;
+    }    
+}

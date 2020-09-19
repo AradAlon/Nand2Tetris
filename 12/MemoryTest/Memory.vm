@@ -1,0 +1,392 @@
+function Memory.init 0
+push constant 0
+pop static 0
+push constant 2048
+push static 0
+add
+push constant 2048
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2049
+push static 0
+add
+push constant 14334
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+return
+function Memory.peek 0
+push argument 0
+push static 0
+add
+pop pointer 1
+push that 0
+return
+function Memory.poke 0
+push argument 0
+push static 0
+add
+push argument 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+return
+function Memory.alloc 1
+push argument 0
+push constant 1
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 5
+call Sys.error 1
+pop temp 0
+label IF_FALSE0
+push argument 0
+call Memory.firstFit 1
+pop local 0
+push local 0
+push constant 1
+neg
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 6
+call Sys.error 1
+pop temp 0
+label IF_FALSE1
+push local 0
+push constant 2
+add
+return
+function Memory.firstFit 1
+push constant 2048
+push argument 0
+call Memory.fit 2
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 2048
+push argument 0
+call Memory.carveBlock 2
+return
+label IF_FALSE0
+push constant 2048
+push static 0
+add
+pop pointer 1
+push that 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 2048
+eq
+not
+not
+if-goto WHILE_END0
+push local 0
+push argument 0
+call Memory.fit 2
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+push argument 0
+call Memory.carveBlock 2
+return
+label IF_FALSE1
+push local 0
+push static 0
+add
+pop pointer 1
+push that 0
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 1
+neg
+return
+function Memory.bestFit 3
+push constant 1
+neg
+pop local 1
+push constant 2048
+push static 0
+add
+pop pointer 1
+push that 0
+pop local 0
+push constant 2048
+push argument 0
+call Memory.fit 2
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 2048
+pop local 1
+push constant 2048
+push argument 0
+call Memory.delta 2
+pop local 2
+label IF_FALSE0
+label WHILE_EXP0
+push local 0
+push constant 2048
+eq
+not
+not
+if-goto WHILE_END0
+push local 0
+push static 0
+add
+pop pointer 1
+push that 0
+pop local 0
+push local 0
+push argument 0
+call Memory.fit 2
+push local 2
+push local 0
+push argument 0
+call Memory.delta 2
+gt
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+pop local 1
+push local 0
+push argument 0
+call Memory.delta 2
+pop local 2
+label IF_FALSE1
+goto WHILE_EXP0
+label WHILE_END0
+push local 1
+push constant 1
+neg
+gt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push local 1
+push argument 0
+call Memory.carveBlock 2
+pop temp 0
+label IF_FALSE2
+push local 1
+return
+function Memory.carveBlock 1
+push argument 0
+push constant 1
+add
+push static 0
+add
+push argument 0
+push constant 1
+add
+push static 0
+add
+pop pointer 1
+push that 0
+push argument 1
+sub
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push argument 0
+push argument 0
+push constant 1
+add
+push static 0
+add
+pop pointer 1
+push that 0
+add
+pop local 0
+push local 0
+push constant 1
+add
+push static 0
+add
+push argument 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push constant 2
+add
+return
+function Memory.fit 0
+push argument 1
+push argument 0
+push constant 1
+add
+push static 0
+add
+pop pointer 1
+push that 0
+gt
+not
+return
+function Memory.delta 0
+push argument 0
+push constant 1
+add
+push static 0
+add
+pop pointer 1
+push that 0
+push argument 1
+sub
+return
+function Memory.deFragmentaion 3
+push constant 2048
+pop local 0
+push constant 2048
+push static 0
+add
+pop pointer 1
+push that 0
+pop local 1
+push constant 0
+pop local 2
+label WHILE_EXP0
+push local 1
+push constant 2048
+eq
+not
+not
+if-goto WHILE_END0
+push local 2
+not
+push argument 0
+push local 1
+lt
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+push static 0
+add
+push argument 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push argument 0
+push static 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push argument 0
+pop local 1
+push constant 0
+not
+pop local 2
+label IF_FALSE0
+push local 1
+push local 0
+push constant 2
+add
+push local 0
+push constant 1
+add
+push static 0
+add
+pop pointer 1
+push that 0
+add
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+push constant 1
+add
+push static 0
+add
+push local 1
+push constant 1
+add
+push static 0
+add
+pop pointer 1
+push that 0
+push constant 2
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push static 0
+add
+push local 1
+push static 0
+add
+pop pointer 1
+push that 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+goto IF_END1
+label IF_FALSE1
+push local 1
+pop local 0
+label IF_END1
+push local 1
+push static 0
+add
+pop pointer 1
+push that 0
+pop local 1
+goto WHILE_EXP0
+label WHILE_END0
+push local 2
+not
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push local 0
+push static 0
+add
+push argument 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push argument 0
+push static 0
+add
+push constant 2048
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label IF_FALSE2
+push constant 0
+return
+function Memory.deAlloc 0
+push argument 0
+push constant 2
+sub
+call Memory.deFragmentaion 1
+pop temp 0
+push constant 0
+return
