@@ -1,0 +1,34 @@
+/**
+ * The main class of the TRex game.
+ */
+ class Main {
+     /** Initializes a TRex game and starts running it. */
+     function void main() {
+        var boolean quit;
+        var char key;
+        var TRexGame game;
+
+        let quit = false;
+
+        while (~quit) {
+            let game = TRexGame.new();
+            
+            while (~(key = 132)) {
+                let key = Keyboard.keyPressed();
+            }
+
+            do game.run();
+            let key = 0;
+            
+            while (key = 0) {
+                let key = Keyboard.keyPressed();
+                if (key = 81) {
+                    let quit = true;
+                }
+            }
+
+        }
+        do game.dispose();
+        return;
+    }
+}

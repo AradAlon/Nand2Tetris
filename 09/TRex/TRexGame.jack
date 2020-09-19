@@ -1,0 +1,118 @@
+class TRexGame {
+    field LandScape landscape;
+    field TRex tRex;
+    field Cactus cactus;
+    field int score;
+    field boolean exit, multi;
+    field int time;
+    
+    constructor TRexGame new() {
+        do Screen.clearScreen();
+        let time = 5;
+        let multi = true;
+        let landscape = LandScape.new();
+        let tRex = TRex.new();
+        let cactus = Cactus.new(multi);
+        do Output.moveCursor(4,27);
+        do Output.printString("Score:");
+        do Output.moveCursor(0,20);
+        do Output.printString("press -> to start the adventure!");
+        
+        let exit = false;
+        let score = 0;
+        
+        return this;
+    }
+
+    method void run() {
+        var char key;
+        var boolean done_jumping;
+
+        while (~exit) {
+            // waits for a key to be pressed.
+            while ((key = 0) & (~exit)) {
+                let key = Keyboard.keyPressed();
+                do tRex.run();
+                do keep_rooling();
+            }
+
+            if ((key = 131) | (key = 128)) {
+                let done_jumping = tRex.jump();
+                do keep_rooling();
+                while (~done_jumping) {
+                    let done_jumping = tRex.jump();
+                    do keep_rooling();
+                }
+            }
+	        else {
+                if (key = 133) {
+                    do tRex.duck(); 
+                    do keep_rooling();
+                }
+            }
+        
+            let key = 0;
+            if (exit) {
+                do tRex.dead();
+                do Output.moveCursor(10,27);
+                do Output.printString("Game Over");
+                do Output.moveCursor(11,24);
+                do Output.printString("press q to quit");
+                do Output.moveCursor(12,20);
+                do Output.printString("press -> to keep going");
+            }
+        }
+        return;
+    }
+
+    method void keep_rooling() {
+        var boolean obj;
+
+        do landscape.roll();
+        let obj = cactus.roll();
+        if (~obj) {
+            let multi = ~multi;
+            let cactus = Cactus.new(multi);
+        }
+        do Sys.wait(time);
+        if (they_touch()){
+            let exit = true;
+        }
+        do inc_score();
+        return;
+    }
+
+    method void inc_score() {
+        let score = score + 1;
+        do Output.moveCursor(5,27);
+        do Output.printInt(score);
+        return;
+    }
+
+    method boolean they_touch() {
+        if ((cactus.lside() < (tRex.faceEdge() + 1)) & (cactus.lside() > tRex.tailEdge())) {
+            if ((tRex.legsEdge() + 11) > (cactus.buttom() - 1)){
+                return true;
+            }
+            if (cactus.lside() > (tRex.frontEdge() + 1)) {
+                if ((tRex.legsEdge() + 29) > (cactus.buttom() - 1)) {
+                    return true;
+                }
+            }
+            else {
+                if ((tRex.legsEdge() + 39) > (cactus.buttom() - 1)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    method void dispose() {
+        do landscape.dispose();
+        do tRex.dispose();
+        do cactus.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+}

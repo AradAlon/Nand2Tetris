@@ -1,0 +1,514 @@
+class TRex {
+    field int location; // The location of T-Rex
+    field String form;
+    field int velocity;
+    field int standing, dead, right, left, rDuck, lDuck;
+
+
+    constructor TRex new() {
+        let location = 0;
+        let standing = 1;
+        let dead = 2;
+        let right = 3;
+        let left = 4;
+        let rDuck = 5;
+        let lDuck = 6;
+        let velocity = -6;
+        do standing();
+        return this;
+    }
+    
+    /** Deallocates T-Rex's memory */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+    
+    method void show() {
+        do Screen.setColor(true);
+        do draw();
+        return;
+    }
+
+    /** Shows T-Rex */
+    method void draw() {
+        if (form = standing) {
+            do drawStanding();
+        }
+        else {
+            if (form = dead) {
+                do drawDead();
+            }
+            else {
+                if (form = right) {
+                    do drawRightLegUp();
+                }
+                else {
+                    if (form = left) {
+                        do drawLeftLegUp();
+                    }
+                    else {
+                        if (form = rDuck) {
+                            do drawDuckRight();
+                        }
+                        else {
+                            if (form = lDuck) {
+                                do drawDuckLeft();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return;
+    }
+    
+    method void hide() {
+        do Screen.setColor(false);
+        do draw();
+        return;
+    }
+
+    method void standing(){
+        let form = standing;
+        do show();
+        return;
+    }
+
+    method void dead(){
+        do hide();
+        let form = dead;
+        do show();
+        return;
+    }
+
+    method void run(){
+        do hide();
+        if (form = right) {
+            let form = left;
+        }
+        else {
+            let form = right;          
+        }
+        do show();
+        return;
+    }
+
+    method void duck(){
+        do hide();
+        if (form = rDuck) {
+            let form = lDuck;
+        }
+        else {
+            let form = rDuck;
+        }
+        do show();
+        return;
+    }
+    
+    method boolean jump() {
+        var boolean done_jumping;
+
+        let done_jumping = false;
+
+        do hide();
+        let location = location + velocity;
+        if ((location < -100) | (location > 0)) {
+            let velocity = -velocity;
+            if (location > 0) {
+                let done_jumping = true;
+            }
+        }
+        do standing();
+        return done_jumping;
+    }
+    
+    method int faceEdge(){
+        return 76;
+    }
+    
+    method int tailEdge(){
+        return 36;
+    }
+
+    method int headEdge(){
+        return location + 203;
+    }
+
+    method int frontEdge(){
+        return 64;
+    }
+
+    method int legsEdge(){
+        return location + 240;
+    }
+    
+    /** Draws a standing T-Rex */
+    method void drawStanding() {
+        do Screen.drawLine(57, location + 203, 74, location + 203);
+        do Screen.drawLine(56, location + 204, 76, location + 204);
+        do Screen.drawLine(56, location + 205, 58, location + 205);
+        do Screen.drawLine(61, location + 205, 76, location + 205);
+        do Screen.drawLine(56, location + 206, 58, location + 206);
+        do Screen.drawLine(61, location + 206, 76, location + 206);
+        do Screen.drawLine(56, location + 207, 76, location + 207);
+        do Screen.drawLine(56, location + 208, 76, location + 208);
+        do Screen.drawLine(56, location + 209, 76, location + 209);
+        do Screen.drawLine(56, location + 210, 76, location + 210);
+        do Screen.drawLine(56, location + 211, 64, location + 211);
+        do Screen.drawLine(56, location + 212, 74, location + 212);
+        do Screen.drawLine(56, location + 213, 64, location + 213);
+        do Screen.drawLine(56, location + 214, 64, location + 214);
+        do Screen.drawPixel(36, location + 214);
+        do Screen.drawLine(56, location + 215, 64, location + 215);
+        do Screen.drawPixel(36, location + 215);
+        do Screen.drawLine(54, location + 216, 64, location + 216);
+        do Screen.drawLine(36, location + 216, 37, location + 216);
+        do Screen.drawLine(53, location + 217, 67, location + 217);
+        do Screen.drawLine(36, location + 217, 37, location + 217);
+        do Screen.drawPixel(67, location + 218);
+        do Screen.drawLine(52, location + 218, 64, location + 218);
+        do Screen.drawLine(36, location + 218, 37, location + 218);
+        do Screen.drawLine(50, location + 219, 64, location + 219);
+        do Screen.drawLine(36, location + 219, 39, location + 219);
+        do Screen.drawLine(49, location + 220, 64, location + 220);
+        do Screen.drawLine(36, location + 220, 40, location + 220);
+        do Screen.drawLine(47, location + 221, 64, location + 221);
+        do Screen.drawLine(36, location + 221, 41, location + 221);
+        do Screen.drawLine(46, location + 222, 64, location + 222);
+        do Screen.drawLine(36, location + 222, 42, location + 222);
+        do Screen.drawLine(36, location + 223, 64, location + 223);
+        do Screen.drawLine(37, location + 224, 64, location + 224);
+        do Screen.drawLine(39, location + 225, 64, location + 225);
+        do Screen.drawLine(40, location + 226, 64, location + 226);
+        do Screen.drawLine(40, location + 227, 63, location + 227);
+        do Screen.drawLine(41, location + 228, 63, location + 228);
+        do Screen.drawLine(42, location + 229, 63, location + 229);
+        do Screen.drawLine(43, location + 230, 63, location + 230);
+        do Screen.drawLine(45, location + 231, 62, location + 231);
+        do Screen.drawLine(47, location + 232, 62, location + 232);
+        do Screen.drawLine(48, location + 233, 61, location + 233);
+        do Screen.drawLine(49, location + 234, 55, location + 234);
+        do Screen.drawLine(58, location + 234, 61, location + 234);
+        do Screen.drawLine(52, location + 235, 55, location + 235);
+        do Screen.drawLine(58, location + 235, 61, location + 235);
+        do Screen.drawLine(52, location + 236, 54, location + 236);
+        do Screen.drawLine(59, location + 236, 60, location + 236);
+        do Screen.drawLine(52, location + 237, 53, location + 237);
+        do Screen.drawPixel(59, location + 237);
+        do Screen.drawPixel(52, location + 238);
+        do Screen.drawPixel(59, location + 238);
+        do Screen.drawPixel(52, location + 239);
+        do Screen.drawPixel(59, location + 239);
+        do Screen.drawLine(52, location + 240, 54, location + 240);
+        do Screen.drawLine(59, location + 240, 61, location + 240);
+        return;
+    }
+
+    /** Draws a Dead T-Rex */
+    method void drawDead() {
+        do Screen.drawLine(57, location + 203, 74, location + 203);
+        do Screen.drawLine(56, location + 204, 76, location + 204);
+        do Screen.drawLine(56, location + 205, 58, location + 205);
+        do Screen.drawLine(62, location + 205, 76, location + 205);
+        do Screen.drawLine(56, location + 206, 58, location + 206);
+        do Screen.drawPixel(60, location + 206);
+        do Screen.drawLine(62, location + 206, 76, location + 206);
+        do Screen.drawLine(56, location + 207, 58, location + 207);
+        do Screen.drawLine(62, location + 207, 76, location + 207);
+        do Screen.drawLine(56, location + 208, 76, location + 208);
+        do Screen.drawLine(56, location + 209, 76, location + 209);
+        do Screen.drawLine(56, location + 210, 76, location + 210);
+        do Screen.drawLine(56, location + 211, 64, location + 211);
+        do Screen.drawLine(56, location + 212, 74, location + 212);
+        do Screen.drawLine(56, location + 213, 64, location + 213);
+        do Screen.drawLine(56, location + 214, 64, location + 214);
+        do Screen.drawPixel(36, location + 214);
+        do Screen.drawLine(56, location + 215, 64, location + 215);
+        do Screen.drawPixel(36, location + 215);
+        do Screen.drawLine(54, location + 216, 64, location + 216);
+        do Screen.drawLine(36, location + 216, 37, location + 216);
+        do Screen.drawLine(53, location + 217, 67, location + 217);
+        do Screen.drawLine(36, location + 217, 37, location + 217);
+        do Screen.drawPixel(67, location + 218);
+        do Screen.drawLine(52, location + 218, 64, location + 218);
+        do Screen.drawLine(36, location + 218, 37, location + 218);
+        do Screen.drawLine(50, location + 219, 64, location + 219);
+        do Screen.drawLine(36, location + 219, 39, location + 219);
+        do Screen.drawLine(49, location + 220, 64, location + 220);
+        do Screen.drawLine(36, location + 220, 40, location + 220);
+        do Screen.drawLine(47, location + 221, 64, location + 221);
+        do Screen.drawLine(36, location + 221, 41, location + 221);
+        do Screen.drawLine(46, location + 222, 64, location + 222);
+        do Screen.drawLine(36, location + 222, 42, location + 222);
+        do Screen.drawLine(36, location + 223, 64, location + 223);
+        do Screen.drawLine(37, location + 224, 64, location + 224);
+        do Screen.drawLine(39, location + 225, 64, location + 225);
+        do Screen.drawLine(40, location + 226, 64, location + 226);
+        do Screen.drawLine(40, location + 227, 63, location + 227);
+        do Screen.drawLine(41, location + 228, 63, location + 228);
+        do Screen.drawLine(42, location + 229, 63, location + 229);
+        do Screen.drawLine(43, location + 230, 63, location + 230);
+        do Screen.drawLine(45, location + 231, 62, location + 231);
+        do Screen.drawLine(47, location + 232, 62, location + 232);
+        do Screen.drawLine(48, location + 233, 61, location + 233);
+        do Screen.drawLine(49, location + 234, 55, location + 234);
+        do Screen.drawLine(58, location + 234, 61, location + 234);
+        do Screen.drawLine(52, location + 235, 55, location + 235);
+        do Screen.drawLine(58, location + 235, 61, location + 235);
+        do Screen.drawLine(52, location + 236, 54, location + 236);
+        do Screen.drawLine(59, location + 236, 60, location + 236);
+        do Screen.drawLine(52, location + 237, 53, location + 237);
+        do Screen.drawPixel(59, location + 237);
+        do Screen.drawPixel(52, location + 238);
+        do Screen.drawPixel(59, location + 238);
+        do Screen.drawPixel(52, location + 239);
+        do Screen.drawPixel(59, location + 239);
+        do Screen.drawLine(52, location + 240, 54, location + 240);
+        do Screen.drawLine(59, location + 240, 61, location + 240);
+        return;
+    }
+
+    /** Draws a right leg up T-Rex */
+    method void drawRightLegUp() {
+        do Screen.drawLine(57, location + 203, 74, location + 203);
+        do Screen.drawLine(56, location + 204, 76, location + 204);
+        do Screen.drawLine(56, location + 205, 58, location + 205);
+        do Screen.drawLine(61, location + 205, 76, location + 205);
+        do Screen.drawLine(56, location + 206, 58, location + 206);
+        do Screen.drawLine(61, location + 206, 76, location + 206);
+        do Screen.drawLine(56, location + 207, 76, location + 207);
+        do Screen.drawLine(56, location + 208, 76, location + 208);
+        do Screen.drawLine(56, location + 209, 76, location + 209);
+        do Screen.drawLine(56, location + 210, 76, location + 210);
+        do Screen.drawLine(56, location + 211, 64, location + 211);
+        do Screen.drawLine(56, location + 212, 74, location + 212);
+        do Screen.drawLine(56, location + 213, 64, location + 213);
+        do Screen.drawLine(56, location + 214, 64, location + 214);
+        do Screen.drawPixel(36, location + 214);
+        do Screen.drawLine(56, location + 215, 64, location + 215);
+        do Screen.drawPixel(36, location + 215);
+        do Screen.drawLine(54, location + 216, 64, location + 216);
+        do Screen.drawLine(36, location + 216, 37, location + 216);
+        do Screen.drawLine(53, location + 217, 67, location + 217);
+        do Screen.drawLine(36, location + 217, 37, location + 217);
+        do Screen.drawPixel(67, location + 218);
+        do Screen.drawLine(52, location + 218, 64, location + 218);
+        do Screen.drawLine(36, location + 218, 37, location + 218);
+        do Screen.drawLine(50, location + 219, 64, location + 219);
+        do Screen.drawLine(36, location + 219, 39, location + 219);
+        do Screen.drawLine(49, location + 220, 64, location + 220);
+        do Screen.drawLine(36, location + 220, 40, location + 220);
+        do Screen.drawLine(47, location + 221, 64, location + 221);
+        do Screen.drawLine(36, location + 221, 41, location + 221);
+        do Screen.drawLine(46, location + 222, 64, location + 222);
+        do Screen.drawLine(36, location + 222, 42, location + 222);
+        do Screen.drawLine(36, location + 223, 64, location + 223);
+        do Screen.drawLine(37, location + 224, 64, location + 224);
+        do Screen.drawLine(39, location + 225, 64, location + 225);
+        do Screen.drawLine(40, location + 226, 64, location + 226);
+        do Screen.drawLine(40, location + 227, 63, location + 227);
+        do Screen.drawLine(41, location + 228, 63, location + 228);
+        do Screen.drawLine(42, location + 229, 63, location + 229);
+        do Screen.drawLine(43, location + 230, 63, location + 230);
+        do Screen.drawLine(45, location + 231, 62, location + 231);
+        do Screen.drawLine(47, location + 232, 62, location + 232);
+        do Screen.drawLine(48, location + 233, 61, location + 233);
+        do Screen.drawLine(49, location + 234, 55, location + 234);
+        do Screen.drawLine(58, location + 234, 61, location + 234);
+        do Screen.drawLine(52, location + 235, 55, location + 235);
+        do Screen.drawLine(58, location + 235, 61, location + 235);
+        do Screen.drawLine(52, location + 236, 54, location + 236);
+        do Screen.drawPixel(59, location + 236);
+        do Screen.drawLine(52, location + 237, 53, location + 237);
+        do Screen.drawLine(59, location + 237, 61, location + 237);
+        do Screen.drawPixel(52, location + 238);
+        do Screen.drawPixel(52, location + 239);
+        do Screen.drawLine(52, location + 240, 54, location + 240);
+        return;
+    }
+
+    /** Draws a left leg up T-Rex */
+    method void drawLeftLegUp() {
+        do Screen.drawLine(57, location + 203, 74, location + 203);
+        do Screen.drawLine(56, location + 204, 76, location + 204);
+        do Screen.drawLine(56, location + 205, 58, location + 205);
+        do Screen.drawLine(61, location + 205, 76, location + 205);
+        do Screen.drawLine(56, location + 206, 58, location + 206);
+        do Screen.drawLine(61, location + 206, 76, location + 206);
+        do Screen.drawLine(56, location + 207, 76, location + 207);
+        do Screen.drawLine(56, location + 208, 76, location + 208);
+        do Screen.drawLine(56, location + 209, 76, location + 209);
+        do Screen.drawLine(56, location + 210, 76, location + 210);
+        do Screen.drawLine(56, location + 211, 64, location + 211);
+        do Screen.drawLine(56, location + 212, 74, location + 212);
+        do Screen.drawLine(56, location + 213, 64, location + 213);
+        do Screen.drawLine(56, location + 214, 64, location + 214);
+        do Screen.drawPixel(36, location + 214);
+        do Screen.drawLine(56, location + 215, 64, location + 215);
+        do Screen.drawPixel(36, location + 215);
+        do Screen.drawLine(54, location + 216, 64, location + 216);
+        do Screen.drawLine(36, location + 216, 37, location + 216);
+        do Screen.drawLine(53, location + 217, 67, location + 217);
+        do Screen.drawLine(36, location + 217, 37, location + 217);
+        do Screen.drawPixel(67, location + 218);
+        do Screen.drawLine(52, location + 218, 64, location + 218);
+        do Screen.drawLine(36, location + 218, 37, location + 218);
+        do Screen.drawLine(50, location + 219, 64, location + 219);
+        do Screen.drawLine(36, location + 219, 39, location + 219);
+        do Screen.drawLine(49, location + 220, 64, location + 220);
+        do Screen.drawLine(36, location + 220, 40, location + 220);
+        do Screen.drawLine(47, location + 221, 64, location + 221);
+        do Screen.drawLine(36, location + 221, 41, location + 221);
+        do Screen.drawLine(46, location + 222, 64, location + 222);
+        do Screen.drawLine(36, location + 222, 42, location + 222);
+        do Screen.drawLine(36, location + 223, 64, location + 223);
+        do Screen.drawLine(37, location + 224, 64, location + 224);
+        do Screen.drawLine(39, location + 225, 64, location + 225);
+        do Screen.drawLine(40, location + 226, 64, location + 226);
+        do Screen.drawLine(40, location + 227, 63, location + 227);
+        do Screen.drawLine(41, location + 228, 63, location + 228);
+        do Screen.drawLine(42, location + 229, 63, location + 229);
+        do Screen.drawLine(43, location + 230, 63, location + 230);
+        do Screen.drawLine(45, location + 231, 62, location + 231);
+        do Screen.drawLine(47, location + 232, 62, location + 232);
+        do Screen.drawLine(48, location + 233, 61, location + 233);
+        do Screen.drawLine(49, location + 234, 55, location + 234);
+        do Screen.drawLine(58, location + 234, 61, location + 234);
+        do Screen.drawLine(52, location + 235, 55, location + 235);
+        do Screen.drawLine(58, location + 235, 61, location + 235);
+        do Screen.drawPixel(52, location + 236);
+        do Screen.drawLine(59, location + 236, 60, location + 236);
+        do Screen.drawPixel(52, location + 237);
+        do Screen.drawPixel(59, location + 237);
+        do Screen.drawLine(52, location + 238, 54, location + 238);
+        do Screen.drawPixel(59, location + 238);
+        do Screen.drawPixel(59, location + 239);
+        do Screen.drawLine(59, location + 240, 61, location + 240);
+        return;
+    }
+
+    /** Draws a Duking Right leg up T-Rex */
+    method void drawDuckRight() {
+        do Screen.drawLine(57, location + 203, 74, location + 203);
+        do Screen.drawLine(56, location + 204, 76, location + 204);
+        do Screen.drawLine(56, location + 205, 58, location + 205);
+        do Screen.drawLine(61, location + 205, 76, location + 205);
+        do Screen.drawLine(56, location + 206, 58, location + 206);
+        do Screen.drawLine(61, location + 206, 76, location + 206);
+        do Screen.drawLine(56, location + 207, 76, location + 207);
+        do Screen.drawLine(56, location + 208, 76, location + 208);
+        do Screen.drawLine(56, location + 209, 76, location + 209);
+        do Screen.drawLine(56, location + 210, 76, location + 210);
+        do Screen.drawLine(56, location + 211, 64, location + 211);
+        do Screen.drawLine(56, location + 212, 74, location + 212);
+        do Screen.drawLine(56, location + 213, 64, location + 213);
+        do Screen.drawLine(56, location + 214, 64, location + 214);
+        do Screen.drawPixel(36, location + 214);
+        do Screen.drawLine(56, location + 215, 64, location + 215);
+        do Screen.drawPixel(36, location + 215);
+        do Screen.drawLine(54, location + 216, 64, location + 216);
+        do Screen.drawLine(36, location + 216, 37, location + 216);
+        do Screen.drawLine(53, location + 217, 67, location + 217);
+        do Screen.drawLine(36, location + 217, 37, location + 217);
+        do Screen.drawPixel(67, location + 218);
+        do Screen.drawLine(52, location + 218, 64, location + 218);
+        do Screen.drawLine(36, location + 218, 37, location + 218);
+        do Screen.drawLine(50, location + 219, 64, location + 219);
+        do Screen.drawLine(36, location + 219, 39, location + 219);
+        do Screen.drawLine(49, location + 220, 64, location + 220);
+        do Screen.drawLine(36, location + 220, 40, location + 220);
+        do Screen.drawLine(47, location + 221, 64, location + 221);
+        do Screen.drawLine(36, location + 221, 41, location + 221);
+        do Screen.drawLine(46, location + 222, 64, location + 222);
+        do Screen.drawLine(36, location + 222, 42, location + 222);
+        do Screen.drawLine(36, location + 223, 64, location + 223);
+        do Screen.drawLine(37, location + 224, 64, location + 224);
+        do Screen.drawLine(39, location + 225, 64, location + 225);
+        do Screen.drawLine(40, location + 226, 64, location + 226);
+        do Screen.drawLine(40, location + 227, 63, location + 227);
+        do Screen.drawLine(41, location + 228, 63, location + 228);
+        do Screen.drawLine(42, location + 229, 63, location + 229);
+        do Screen.drawLine(43, location + 230, 63, location + 230);
+        do Screen.drawLine(45, location + 231, 62, location + 231);
+        do Screen.drawLine(47, location + 232, 62, location + 232);
+        do Screen.drawLine(48, location + 233, 61, location + 233);
+        do Screen.drawLine(49, location + 234, 55, location + 234);
+        do Screen.drawLine(58, location + 234, 61, location + 234);
+        do Screen.drawLine(52, location + 235, 55, location + 235);
+        do Screen.drawLine(58, location + 235, 61, location + 235);
+        do Screen.drawLine(52, location + 236, 54, location + 236);
+        do Screen.drawLine(59, location + 236, 60, location + 236);
+        do Screen.drawLine(52, location + 237, 53, location + 237);
+        do Screen.drawPixel(59, location + 237);
+        do Screen.drawPixel(52, location + 238);
+        do Screen.drawPixel(59, location + 238);
+        do Screen.drawPixel(52, location + 239);
+        do Screen.drawPixel(59, location + 239);
+        do Screen.drawLine(52, location + 240, 54, location + 240);
+        do Screen.drawLine(59, location + 240, 61, location + 240);
+        return;
+    }
+
+    /** Draws a Duking Left leg up T-Rex */
+    method void drawDuckLeft() {
+        do Screen.drawLine(57, location + 203, 74, location + 203);
+        do Screen.drawLine(56, location + 204, 76, location + 204);
+        do Screen.drawLine(56, location + 205, 58, location + 205);
+        do Screen.drawLine(61, location + 205, 76, location + 205);
+        do Screen.drawLine(56, location + 206, 58, location + 206);
+        do Screen.drawLine(61, location + 206, 76, location + 206);
+        do Screen.drawLine(56, location + 207, 76, location + 207);
+        do Screen.drawLine(56, location + 208, 76, location + 208);
+        do Screen.drawLine(56, location + 209, 76, location + 209);
+        do Screen.drawLine(56, location + 210, 76, location + 210);
+        do Screen.drawLine(56, location + 211, 64, location + 211);
+        do Screen.drawLine(56, location + 212, 74, location + 212);
+        do Screen.drawLine(56, location + 213, 64, location + 213);
+        do Screen.drawLine(56, location + 214, 64, location + 214);
+        do Screen.drawPixel(36, location + 214);
+        do Screen.drawLine(56, location + 215, 64, location + 215);
+        do Screen.drawPixel(36, location + 215);
+        do Screen.drawLine(54, location + 216, 64, location + 216);
+        do Screen.drawLine(36, location + 216, 37, location + 216);
+        do Screen.drawLine(53, location + 217, 67, location + 217);
+        do Screen.drawLine(36, location + 217, 37, location + 217);
+        do Screen.drawPixel(67, location + 218);
+        do Screen.drawLine(52, location + 218, 64, location + 218);
+        do Screen.drawLine(36, location + 218, 37, location + 218);
+        do Screen.drawLine(50, location + 219, 64, location + 219);
+        do Screen.drawLine(36, location + 219, 39, location + 219);
+        do Screen.drawLine(49, location + 220, 64, location + 220);
+        do Screen.drawLine(36, location + 220, 40, location + 220);
+        do Screen.drawLine(47, location + 221, 64, location + 221);
+        do Screen.drawLine(36, location + 221, 41, location + 221);
+        do Screen.drawLine(46, location + 222, 64, location + 222);
+        do Screen.drawLine(36, location + 222, 42, location + 222);
+        do Screen.drawLine(36, location + 223, 64, location + 223);
+        do Screen.drawLine(37, location + 224, 64, location + 224);
+        do Screen.drawLine(39, location + 225, 64, location + 225);
+        do Screen.drawLine(40, location + 226, 64, location + 226);
+        do Screen.drawLine(40, location + 227, 63, location + 227);
+        do Screen.drawLine(41, location + 228, 63, location + 228);
+        do Screen.drawLine(42, location + 229, 63, location + 229);
+        do Screen.drawLine(43, location + 230, 63, location + 230);
+        do Screen.drawLine(45, location + 231, 62, location + 231);
+        do Screen.drawLine(47, location + 232, 62, location + 232);
+        do Screen.drawLine(48, location + 233, 61, location + 233);
+        do Screen.drawLine(49, location + 234, 55, location + 234);
+        do Screen.drawLine(58, location + 234, 61, location + 234);
+        do Screen.drawLine(52, location + 235, 55, location + 235);
+        do Screen.drawLine(58, location + 235, 61, location + 235);
+        do Screen.drawLine(52, location + 236, 54, location + 236);
+        do Screen.drawLine(59, location + 236, 60, location + 236);
+        do Screen.drawLine(52, location + 237, 53, location + 237);
+        do Screen.drawPixel(59, location + 237);
+        do Screen.drawPixel(52, location + 238);
+        do Screen.drawPixel(59, location + 238);
+        do Screen.drawPixel(52, location + 239);
+        do Screen.drawPixel(59, location + 239);
+        do Screen.drawLine(52, location + 240, 54, location + 240);
+        do Screen.drawLine(59, location + 240, 61, location + 240);
+        return;
+    }
+}

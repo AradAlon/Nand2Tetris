@@ -1,0 +1,55 @@
+class LandScape{
+    field int sripes, velocity;
+    
+    constructor LandScape new() {
+        let sripes = 1;
+        let velocity = 5;
+        do show();
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void show() {
+        do Screen.setColor(true);
+        do draw();
+        return;
+    }
+
+    method void hide() {
+        do Screen.setColor(false);
+	    do draw();
+        return;
+    }
+
+    method void roll() {
+        do hide();
+        let sripes = sripes + 1;
+        if (230 + sripes > 255) {
+            let sripes = 1;
+        }
+        do show();
+	    return;
+    }
+
+    method void draw() {
+        var int x, y, length;
+
+        do Screen.drawLine(0, 230, 511, 230);
+        let x = sripes;
+        let y = 0;
+        let length = 10;
+        while ((y + length) < 512) {
+            do Screen.drawLine(y, 230 + x, y + length, 230 + x);
+            let y = y + 5;
+            let x = x + 2;
+            if ((230 + x) > 255) {
+                let x = 1;
+            }
+        }
+	    return;
+    }
+}

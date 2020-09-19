@@ -1,0 +1,133 @@
+class Cactus {
+    field int location, adjst;
+    field int velocity;
+    field boolean multi;
+
+    constructor Cactus new(boolean switch) {
+        let location = 0;
+        let velocity = 5;
+        let multi = switch;
+        do show();
+        return this;
+    }
+    
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void show() {
+        do Screen.setColor(true);
+        do draw();
+        return;
+    }
+
+    method void draw() {
+        do drawCactus();
+        return;
+    }
+    
+    method void hide() {
+        do Screen.setColor(false);
+        do draw();
+        return;
+    }
+
+    method boolean roll() {
+        do hide();
+        let location = location - velocity;
+        if (location + 489 < 2) {
+            return false;
+        } 
+        else{
+            do show();
+            return true;
+        }
+    }
+
+    method int lside(){
+        return (location + 489);
+    }
+
+    method int rside(){
+        return (location + 511);
+    }
+
+    method int top(){
+        return 203;
+    }
+
+    method int buttom(){
+        return 240;
+    }
+
+    method void drawCactus() {
+        do Screen.drawLine(location + 499, 203, location + 502, 203);
+        do Screen.drawLine(location + 498, 204, location + 503, 204);
+        do Screen.drawLine(location + 497, 205, location + 504, 205);
+        do Screen.drawLine(location + 497, 206, location + 504, 206);
+        do Screen.drawLine(location + 497, 207, location + 504, 207);
+        do Screen.drawLine(location + 497, 208, location + 504, 208);
+        do Screen.drawLine(location + 497, 209, location + 504, 209);
+        do Screen.drawLine(location + 497, 210, location + 504, 210);
+        do Screen.drawLine(location + 497, 211, location + 504, 211);
+        do Screen.drawLine(location + 497, 212, location + 504, 212);
+        do Screen.drawLine(location + 508, 212, location + 509, 212);
+        do Screen.drawLine(location + 497, 213, location + 504, 213);
+        do Screen.drawLine(location + 507, 213, location + 510, 213);
+        do Screen.drawLine(location + 491, 214, location + 493, 214);
+        do Screen.drawLine(location + 497, 214, location + 504, 214);
+        do Screen.drawLine(location + 506, 214, location + 511, 214);
+        do Screen.drawLine(location + 490, 215, location + 494, 215);
+        do Screen.drawLine(location + 497, 215, location + 504, 215);
+        do Screen.drawLine(location + 506, 215, location + 511, 215);
+        do Screen.drawLine(location + 489, 216, location + 495, 216);
+        do Screen.drawLine(location + 497, 216, location + 504, 216);
+        do Screen.drawLine(location + 506, 216, location + 511, 216);
+        do Screen.drawLine(location + 489, 217, location + 495, 217);
+        do Screen.drawLine(location + 497, 217, location + 504, 217);
+        do Screen.drawLine(location + 506, 217, location + 511, 217);
+        do Screen.drawLine(location + 489, 218, location + 495, 218);
+        do Screen.drawLine(location + 497, 218, location + 504, 218);
+        do Screen.drawLine(location + 506, 218, location + 511, 218);
+        do Screen.drawLine(location + 489, 219, location + 495, 219);
+        do Screen.drawLine(location + 497, 219, location + 504, 219);
+        do Screen.drawLine(location + 506, 219, location + 511, 219);
+        do Screen.drawLine(location + 489, 220, location + 495, 220);
+        do Screen.drawLine(location + 497, 220, location + 504, 220);
+        do Screen.drawLine(location + 506, 220, location + 511, 220);
+        do Screen.drawLine(location + 489, 221, location + 495, 221);
+        do Screen.drawLine(location + 497, 221, location + 504, 221);
+        do Screen.drawLine(location + 506, 221, location + 511, 221);
+        do Screen.drawLine(location + 489, 222, location + 495, 222);
+        do Screen.drawLine(location + 497, 222, location + 504, 222);
+        do Screen.drawLine(location + 506, 222, location + 511, 222);
+        do Screen.drawLine(location + 489, 223, location + 495, 223);
+        do Screen.drawLine(location + 497, 223, location + 504, 223);
+        do Screen.drawLine(location + 506, 223, location + 511, 223);
+        do Screen.drawLine(location + 489, 224, location + 495, 224);
+        do Screen.drawLine(location + 497, 224, location + 504, 224);
+        do Screen.drawLine(location + 506, 224, location + 511, 224);
+        do Screen.drawLine(location + 489, 225, location + 495, 225);
+        do Screen.drawLine(location + 497, 225, location + 504, 225);
+        do Screen.drawLine(location + 506, 225, location + 511, 225);
+        do Screen.drawLine(location + 489, 226, location + 495, 226);
+        do Screen.drawLine(location + 497, 226, location + 504, 226);
+        do Screen.drawLine(location + 506, 226, location + 511, 226);
+        do Screen.drawLine(location + 489, 227, location + 511, 227);
+        do Screen.drawLine(location + 489, 228, location + 510, 228);
+        do Screen.drawLine(location + 489, 229, location + 509, 229);
+        do Screen.drawLine(location + 490, 230, location + 508, 230);
+        do Screen.drawLine(location + 491, 231, location + 507, 231);
+        do Screen.drawLine(location + 492, 232, location + 504, 232);
+        do Screen.drawLine(location + 493, 233, location + 504, 233);
+        do Screen.drawLine(location + 497, 234, location + 504, 234);
+        do Screen.drawLine(location + 497, 235, location + 504, 235);
+        do Screen.drawLine(location + 497, 236, location + 504, 236);
+        do Screen.drawLine(location + 497, 237, location + 504, 237);
+        do Screen.drawLine(location + 497, 238, location + 504, 238);
+        do Screen.drawLine(location + 497, 239, location + 504, 239);
+        do Screen.drawLine(location + 497, 240, location + 504, 240);
+        return;
+    }
+}
